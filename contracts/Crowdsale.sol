@@ -87,7 +87,6 @@ contract Crowdsale is Ownable {
 
     // update state
     weiRaised = weiRaised.add(weiAmount);
-    tokenSold = tokenSold.add(tokens);
 
     _processPurchase(_beneficiary, tokens);
     emit TokenPurchase(
@@ -101,13 +100,13 @@ contract Crowdsale is Ownable {
   }
 
   function price() public view returns(uint) {
-    // stage 1 6,000,000 coins
+    // stage 1: 6,000,000 coins
     if (tokenSold < 6000000 ether ) {
       return 57;
-    // stage 2 9,000,000 coins
+    // stage 2: 9,000,000 coins
     } else if (tokenSold < 15000000 ether) {
       return 72;
-    // stage 3 10,500,000
+    // stage 3: 10,500,000
     } else if (tokenSold < 25500000) {
       return 86;
     } else {
@@ -149,6 +148,7 @@ contract Crowdsale is Ownable {
    */
   function _processPurchase(address _beneficiary, uint256 _tokenAmount) internal {
     _deliverTokens(_beneficiary, _tokenAmount);
+    tokenSold = tokenSold.add(_tokenAmount);
   }
 
   /**
